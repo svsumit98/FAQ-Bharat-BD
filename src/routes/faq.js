@@ -4,6 +4,7 @@ const faqRouter = express.Router();
 const Redis = require("ioredis");
 const { Translate } = require("@google-cloud/translate").v2;
 require("dotenv").config();
+const { userAuth } = require("../middlewares/auth");
 
 const CREDENTIALS = JSON.parse(process.env.CREDENTIALS);
 
@@ -26,7 +27,7 @@ async function clearFaqCache() {
   }
 }
 
-faqRouter.post("/faqs", async (req, res) => {
+faqRouter.post("/faqs", userAuth, async (req, res) => {
   try {
     const { question, answer } = req.body;
 
@@ -57,7 +58,7 @@ faqRouter.post("/faqs", async (req, res) => {
   }
 });
 
-faqRouter.get("/faqs", async (req, res) => {
+faqRouter.get("/faqs", userAuth, async (req, res) => {
   try {
     const lang = req.query.lang || "en";
 
@@ -80,7 +81,7 @@ faqRouter.get("/faqs", async (req, res) => {
   }
 });
 
-faqRouter.delete("/faqs/:id", async (req, res) => {
+faqRouter.delete("/faqs/:id", userAuth, async (req, res) => {
   try {
     const deletedFaq = await Faq.findByIdAndDelete(req.params.id);
     if (!deletedFaq) {
