@@ -13,8 +13,8 @@ const translate = new Translate({
 });
 
 const redis = new Redis({
-  host: "127.0.0.1", // Update if needed
-  port: 6379, // Default Redis port
+  host: "127.0.0.1",
+  port: 6379,
   retryStrategy: (times) => Math.min(times * 50, 2000)
 });
 
@@ -40,6 +40,7 @@ faqRouter.post("/faqs", async (req, res) => {
     }
     const faq = new Faq({ question, answer, translations });
     await faq.save();
+    await clearFaqCache();
     res.status(200).json(faq);
   } catch (err) {
     res
@@ -68,6 +69,23 @@ faqRouter.get("/faqs", async (req, res) => {
     res
       .status(500)
       .json({ error: "Failed to fetch FAQs", details: err.message });
+  }
+});
+
+faqRouter.delete("/faqs/:id", async (req, res) => {
+  try {
+    const deletedFaq = await Faq.findByIdAndDelete(req.params.id);
+    if (!deletedFaq) {
+      return res.status(404).json({ error: "FAQ not found" });
+    }
+
+    await clearFaqCache();
+
+    res.json({ message: "FAQ deleted successfully!!" });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ error: "Failed to delete FAQ", details: err.message });
   }
 });
 
