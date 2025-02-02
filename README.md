@@ -35,8 +35,8 @@ Deletes an FAQ by ID.
 
 - Clear the Redis cache after deletion.
 
-- User Signup 🔹 Secure user registration with hashed passwords and JWT-based authentication.
-- User Login 🔹 Email & password-based authentication with JWT token issuance.
-- Authentication & Security 🔹 Password hashing with bcrypt and token storage in HTTP-only cookies.
-- Logout 🔹 Secure user logout by clearing the authentication token.
-- Error Handling 🔹 Proper error responses for invalid credentials and validation failures.
+- User Signup: Secure user registration with hashed passwords and JWT-based authentication.
+- User Login: Email & password-based authentication with JWT token issuance.
+- Authentication & Security: Password hashing with bcrypt and token storage in HTTP-only cookies.
+- Logout: Secure user logout by clearing the authentication token.
+- Error Handling: Proper error responses for invalid credentials and validation failures.
