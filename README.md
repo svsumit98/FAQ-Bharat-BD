@@ -1,6 +1,6 @@
 Steps:
 
-- initialising the npm, nodemon and created a gitignore files and write node_modeules in it.
+- Initialising the npm, nodemon and created a gitignore files and write node_modeules in it.
 - Setup the Database and Created the Schema for FAQ.
 - Creating the faqRouter post route for posting the frequently asked questions.
 - installed redis in windows using Chocolatey.
@@ -9,6 +9,7 @@ Steps:
 - Created faqRouter.delete to delete a specific id of record from the database.
 - Now there is a error, when i'm creating or deleting the faq, redis cache is not getting updated, So for that i'm clearing the faq cache.
 - Created the user Schema Model.
+- Created the authentication middleware for user.
 
 Features:
 
@@ -27,4 +28,4 @@ Get FAQs (GET /faqs)
 
 Deletes an FAQ by ID.
 
-- Clears the Redis cache after deletion.
+- Clear the Redis cache after deletion.
