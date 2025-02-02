@@ -48,4 +48,23 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+userSchema.methods.validatePassword = async function (passwordInputByUser) {
+  const user = this;
+  const passwordHash = user.password;
+
+  const isPasswordValid = await bcrypt.compare(
+    passwordInputByUser,
+    passwordHash
+  );
+  return isPasswordValid;
+};
+
+userSchema.method.getJWT = async function () {
+  const user = this;
+  const token = await jwt.sign({ id: user._id }, "Faq@123", {
+    expiresIn: "7d"
+  });
+  return token;
+};
+
 module.exports = mongoose.model("User", userSchema);
