@@ -18,6 +18,14 @@ const redis = new Redis({
   retryStrategy: (times) => Math.min(times * 50, 2000)
 });
 
+async function clearFaqCache() {
+  const keys = await redis.keys("faqs_*");
+  if (keys.length) {
+    await redis.del(...keys);
+    console.log("Redis cache cleared for FAQs.");
+  }
+}
+
 faqRouter.post("/faqs", async (req, res) => {
   try {
     const { question, answer } = req.body;
