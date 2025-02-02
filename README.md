@@ -10,6 +10,7 @@ Steps:
 - Now there is a error, when i'm creating or deleting the faq, redis cache is not getting updated, So for that i'm clearing the faq cache.
 - Created the user Schema Model.
 - Created the authentication middleware for user.
+- Created the post authRouter for signup API.
 
 Features:
 

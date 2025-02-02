@@ -34,13 +34,6 @@ const userSchema = new mongoose.Schema(
           throw new Error("Enter a Strong Password: " + value);
         }
       }
-    },
-    gender: {
-      type: String,
-      enum: {
-        values: ["male", "female", "other"],
-        message: `{VALUE} is not a valid gender type`
-      }
     }
   },
   {
