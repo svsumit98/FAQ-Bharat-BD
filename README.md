@@ -11,6 +11,7 @@ Steps:
 - Created the user Schema Model.
 - Created the authentication middleware for user.
 - Created the post authRouter for signup API.
+- Now we need to validate our signup data, so creating the validateSignUpData function.(/utils/validation).
 
 Features:
 
