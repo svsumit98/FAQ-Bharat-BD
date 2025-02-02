@@ -12,6 +12,12 @@ const translate = new Translate({
   projectId: CREDENTIALS.project_id
 });
 
+const redis = new Redis({
+  host: "127.0.0.1", // Update if needed
+  port: 6379, // Default Redis port
+  retryStrategy: (times) => Math.min(times * 50, 2000)
+});
+
 faqRouter.post("/faqs", async (req, res) => {
   try {
     const { question, answer } = req.body;
@@ -39,6 +45,29 @@ faqRouter.post("/faqs", async (req, res) => {
     res
       .status(500)
       .json({ error: "failed to create FAQ", details: err.message });
+  }
+});
+
+faqRouter.get("/faqs", async (req, res) => {
+  try {
+    const lang = req.query.lang || "en";
+
+    const cachedData = await redis.get(`faqs_${lang}`);
+    if (cachedData) return res.json(JSON.parse(cachedData));
+
+    const faqs = await Faq.find();
+    if (!faqs.length) {
+      return res.json({ message: "No FAQs found in database" });
+    }
+    const translatedFaqs = faqs.map((faq) => faq.getTranslatedFAQ(lang));
+
+    await redis.setex(`faqs_${lang}`, 3600, JSON.stringify(translatedFaqs));
+
+    res.json(translatedFaqs);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ error: "Failed to fetch FAQs", details: err.message });
   }
 });
 
